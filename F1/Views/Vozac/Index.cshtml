@@ -1,0 +1,62 @@
+﻿@model IEnumerable<F1.Models.Vozac>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Vozači</h1>
+
+<p> @if (User.IsInRole("Administrator")){
+    <a asp-action="Create">Create New</a>
+}
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prezime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Drzava)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bodovi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ekipa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prezime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Drzava)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bodovi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ekipa.Naziv)
+            </td>
+                @if (User.IsInRole("Administrator") || User.IsInRole("Zaposlenik"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>}
+        </tr>
+}
+    </tbody>
+</table>

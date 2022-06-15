@@ -1,0 +1,122 @@
+﻿@model IEnumerable<F1.Models.Utrka>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Utrke</h1>
+
+<p> @if (User.IsInRole("Administrator")){
+
+    <a asp-action="Create">Create New</a>
+}
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mjesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrojDostupnihKarata)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdVozaca)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mjesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrojDostupnihKarata)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pobjednik.Ime)
+                @Html.DisplayFor(modelItem => item.Pobjednik.Prezime)
+                </td>@if (User.IsInRole("Administrator") || User.IsInRole("Zaposlenik"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>}
+        </tr>
+}
+    </tbody>
+</table>
+
+<div style="margin-top: 2%; margin-bottom: 2%">
+        <div id="myMap" style="position:relative;width:1300px;height:400px;"></div>
+    </div>
+
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+
+      
+<script type='text/javascript'>
+    function GetMap()
+    {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'AuUsqVpLHw7AixifRLyTzgcECS6DV0oonRx65hJH2PmoF3dCEOdZtq0nGYIUqhEa',
+            center: new Microsoft.Maps.Location(43.8563, 18.4131),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            zoom: 10
+        });
+        
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            visible: false
+        });
+        
+        infobox.setMap(map);
+        var bahrain = new Microsoft.Maps.Location(26.0667, 50.5577);
+        var pin = new Microsoft.Maps.Pushpin(bahrain);
+        pin.metadata = {
+            title: 'Bahrain',
+        };
+        Microsoft.Maps.Events.addHandler(pin, 'mouseover', pushpinClicked);
+        map.entities.push(pin);
+        var imola = new Microsoft.Maps.Location(44.3600, 11.7124);
+        var pin = new Microsoft.Maps.Pushpin(imola);
+        pin.metadata = {
+            title: 'Imola',
+        };
+        Microsoft.Maps.Events.addHandler(pin, 'mouseover', pushpinClicked);
+        map.entities.push(pin);
+
+        var portimao = new Microsoft.Maps.Location(37.1362, 8.5377);
+        var pin = new Microsoft.Maps.Pushpin(portimao);
+        pin.metadata = {
+            title: 'Portimao',
+        };
+        Microsoft.Maps.Events.addHandler(pin, 'mouseover', pushpinClicked);
+        map.entities.push(pin);
+
+        var monaco = new Microsoft.Maps.Location(43.7384, 7.4246);
+        var pin = new Microsoft.Maps.Pushpin(monaco);
+        pin.metadata = {
+            title: 'Monaco',
+        };
+        Microsoft.Maps.Events.addHandler(pin, 'mouseover', pushpinClicked);
+        map.entities.push(pin);
+    }
+    function pushpinClicked(e) {
+        if (e.target.metadata) {
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }   
+</script>

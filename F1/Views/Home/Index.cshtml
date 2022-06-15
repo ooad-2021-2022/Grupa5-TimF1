@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Formula 1</h1>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/SLHLt6iGVyM?autoplay=1" ></iframe>
+
+   
+      
+    
+ @if (User.IsInRole("Administrator"))
+ {
+  <button type="button" onclick="location.href='@Url.Action("Index", "Ekipa")'">Unesi ekipe</button>
+       <br />
+       <button type="button" onclick="location.href='@Url.Action("Index", "Vozac")'">Unesi vozače</button>
+       <br />
+    <button type="button" onclick="location.href='@Url.Action("Index", "Utrka")'">Unesi utrke</button>
+
+ }
+
+ 
+
+</div>
